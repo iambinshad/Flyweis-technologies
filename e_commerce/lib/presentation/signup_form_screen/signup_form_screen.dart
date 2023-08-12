@@ -287,7 +287,7 @@ class _SignupFormScreenState extends State<SignupFormScreen> {
                               children: [
                                 Icon(
                                   Icons.check_box,
-                                  color: Colors.green,
+                                  color: Color(0xFF4CAF50),
                                 ),
                                 Text(
                                   "msg_i_agree_to_the_terms".tr,

@@ -2,22 +2,22 @@ import 'dart:developer';
 
 import 'package:country_pickers/country_pickers.dart';
 import 'package:e_commerce/controller/provider/common_provider.dart';
+import 'package:e_commerce/presentation/sign_up_one_screen/sign_up_one_screen.dart';
 import 'package:e_commerce/widgets/custom_button.dart';
 import 'package:provider/provider.dart';
 
-import 'controller/sign_up_one_controller.dart';
 import 'package:country_pickers/country.dart';
 import 'package:e_commerce/core/app_export.dart';
 import 'package:e_commerce/widgets/custom_phone_number.dart';
 import 'package:flutter/material.dart';
 
 // ignore_for_file: must_be_immutable
-class SignUpOneScreen extends StatefulWidget {
+class SignInOneScreen extends StatefulWidget {
   @override
-  State<SignUpOneScreen> createState() => _SignUpOneScreenState();
+  State<SignInOneScreen> createState() => _SignInOneScreenState();
 }
 
-class _SignUpOneScreenState extends State<SignUpOneScreen> {
+class _SignInOneScreenState extends State<SignInOneScreen> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController phoneController = TextEditingController();
 
@@ -97,12 +97,12 @@ class _SignUpOneScreenState extends State<SignUpOneScreen> {
               //         onTap: (Country country) {
               //           controller.selectedCountry.value = country;
               //         }))),
-              // Padding(
-              //     padding: getPadding(top: 21),
-              //     child: Text("msg_you_ll_receive_4_digit".tr,
-              //         overflow: TextOverflow.ellipsis,
-              //         textAlign: TextAlign.left,
-              //         style: AppStyle.txtMulishRomanExtraBold14)),
+              Padding(
+                  padding: getPadding(top: 21),
+                  child: Text("msg_you_ll_receive_4_digit".tr,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.left,
+                      style: AppStyle.txtMulishRomanExtraBold14)),
               Padding(
                 padding: getPadding(left: 15, top: 28, right: 16),
                 child:
@@ -139,11 +139,8 @@ class _SignUpOneScreenState extends State<SignUpOneScreen> {
                 padding: const EdgeInsets.only(top: 50),
                 child: GestureDetector(
                   onTap: () async {
-                    log(phoneController.text);
-                    if(phoneController.text!=null){
-                      await Provider.of<CommonProvider>(context, listen: false)
-                        .signUpProvider(phoneController.text, context);
-                    }
+                    await Provider.of<CommonProvider>(context, listen: false)
+                        .loginUserProvider(phoneController.text, context);
                   },
                   child: Container(
                     height: 40,
@@ -153,10 +150,37 @@ class _SignUpOneScreenState extends State<SignUpOneScreen> {
                         borderRadius: BorderRadius.all(Radius.circular(20))),
                     child: Center(
                         child: Text(
-                      "Sign Up".tr,
+                      "Login",
                     )),
                   ),
                 ),
+              ),
+              SizedBox(
+                height: getSize(15),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "don't have an account",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  SizedBox(
+                    width: getSize(10),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SignUpOneScreen(),
+                          ));
+                    },
+                    child: Text('SignUp',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold)),
+                  ),
+                ],
               ),
               // CustomButton(
               //     height: getVerticalSize(50),
@@ -169,7 +193,7 @@ class _SignUpOneScreenState extends State<SignUpOneScreen> {
               //     }),
               Padding(
                   padding: getPadding(top: 41),
-                  child: Text('Login with social media',
+                  child: Text("msg_login_with_social".tr,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.left,
                       style: AppStyle.txtMulishRomanExtraBold14)),

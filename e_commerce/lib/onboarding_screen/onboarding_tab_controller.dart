@@ -4,6 +4,7 @@ import 'package:e_commerce/core/utils/size_utils.dart';
 import 'package:e_commerce/presentation/dashboard_1_screen/dashboard_1_screen.dart';
 import 'package:e_commerce/presentation/iphone_14_115_screen/iphone_14_115_screen.dart';
 import 'package:e_commerce/presentation/iphone_14_116_screen/iphone_14_116_screen.dart';
+import 'package:e_commerce/presentation/sign_in_one_screen/veiw/sign_in_screen.dart';
 import 'package:e_commerce/presentation/sign_up_one_screen/binding/sign_up_one_binding.dart';
 import 'package:e_commerce/presentation/sign_up_one_screen/sign_up_one_screen.dart';
 import 'package:e_commerce/widgets/custom_floating_button.dart';
@@ -62,7 +63,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SignUpOneScreen(),
+          builder: (context) => SignInOneScreen(),
         ),
       );
     }

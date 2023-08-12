@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:e_commerce/controller/provider/common_provider.dart';
 import 'package:e_commerce/core/api/endpoints.dart';
 import 'package:e_commerce/core/api/twillio_configration.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
 
 class ServiceClass {
   Dio dio = Dio();
@@ -30,6 +32,7 @@ class ServiceClass {
       }
     }
   }
+
   Future<String?> otpService(String otp) async {
         final currentUserId = await storage.read(key: 'currentUserId');
 
@@ -54,6 +57,30 @@ class ServiceClass {
     }
   }
 
+  //  Future<String?> signUpOtpService(String otp) async {
+  //       final currentUserId = await storage.read(key: 'currentUserId');
+
+  //   String path = ApiConfigration().baseUrl + ApiConfigration().userLoginOtp+currentUserId.toString();
+  //   final rawData = {"otp": otp};
+  //   try {
+  //     Response response = await dio.post(path, data: rawData);
+  //     log(response.statusCode.toString());
+  //     if (response.statusCode == 200) {
+  //       String token = response.data['Token'];
+  //       // String userOtp = response.data['otp'];
+  //       print(token);
+  //       await storage.write(key: 'userToken', value: token);
+  //       return 'success';
+  //     }
+  //   } on DioException catch (e) {
+  //     log(e.message.toString(), name: 'some');
+  //     if (e.message.toString() ==
+  //         'The request returned an invalid status code of 400.') {
+  //       return 'Incorrect Otp';
+  //     }
+  //   }
+  // }
+
   Future<String?> registerEmailService(
     String fullName,
     String email,
@@ -75,6 +102,30 @@ class ServiceClass {
       log(e.message.toString(), name: 'some2');
 
       return e.message.toString();
+    }
+  }
+
+
+  Future<String?> signUpUser(String phone,context) async {
+    String path = ApiConfigration().baseUrl + ApiConfigration().registerUser;
+    final rawData = {"phone":phone};
+    log(path);
+    log(rawData.toString());
+    try {
+      Response response = await dio.post(path,data:rawData);
+      log(response.statusCode.toString());
+      if (response.statusCode == 201) {
+        String userId = response.data['data']['_id'];
+        Provider.of<CommonProvider>(context,listen: false).signUpOtp = response.data['data']['otp'];
+        await storage.write(key: 'currentUserId', value: userId);
+        return 'success';
+      }
+    } on DioException catch (e) {
+      log(e.message.toString(), name: 'someeeee');
+      if (e.message.toString() ==
+          'The request returned an invalid status code of 409.') {
+        return 'Already Exist!';
+      }
     }
   }
 }

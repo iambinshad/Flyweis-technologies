@@ -11,7 +11,8 @@ import 'package:flutter/services.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class SignUpOtpScreen extends StatefulWidget {
-  const SignUpOtpScreen({super.key});
+  bool? isFromSignUp;
+   SignUpOtpScreen({super.key,this.isFromSignUp});
   @override
   State<SignUpOtpScreen> createState() => _SignUpOtpScreenState();
 }
@@ -112,8 +113,11 @@ class _SignUpOtpScreenState extends State<SignUpOtpScreen> {
                       // onTaphome();
                       String otp = otpFiled1.text + otpFiled2.text+otpFiled3.text + otpFiled4.text;
                       log(otp,name: 'otp');
-                      Provider.of<CommonProvider>(context,listen: false)
-                          .otpProvider(otp, context);
+                      if(widget.isFromSignUp==null){Provider.of<CommonProvider>(context,listen: false)
+                          .loginOtpProvider(otp, context);}else{
+                            Provider.of<CommonProvider>(context,listen: false)
+                          .signUpOtpProvider(otp, context);
+                          }
                     },
                     child: Center(
                       child: Container(
